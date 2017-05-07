@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通讯录</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var xmlHttp;
+        //创建xmlHttp
+        function createXMLHttpRequest()
+        {
+            if(window.ActiveXObject)
+            {
+                xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            else if(window.XMLHttpRequest)
+            {
+                xmlHttp=new XMLHttpRequest();
+            }
+        }
+
+        //拼出要发送的姓名数据
+        function createQueryString()
+        {
+            var id=document.getElementById("id").value;
+            var name=document.getElementById("name").value;
+            var tel=document.getElementById("tel").value;
+
+            var queryString="id=" + id + "&name=" + name + "&tel=" + tel;
+            return queryString;
+        }
+        function doRequestUsingPost()
+        {
+            createXMLHttpRequest();
+            var url="./find";
+            var queryString=createQueryString();
+            xmlHttp.open("POST",url,true);
+            xmlHttp.onreadystatechange=handleStateChange;
+            xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xmlHttp.send(queryString);
+        }
+        function handleStateChange()
+        {
+            if(xmlHttp.readyState==4)
+            {
+                if(xmlHttp.status==200)
+                {
+                    parseResults();
+                }
+            }
+        }
+        function parseResults()
+        {
+            document.getElementById("serverResponse").style.display=' ';
+            var responseDiv=document.getElementById("serverResponse");
+            var responseText=xmlHttp.responseText;
+            document.getElementById("serverResponse").innerHTML = responseText;
+
+
+        }
+
+
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".btn btn-success").click(function(){
+                $(".res").slideToggle("slow");
+            });
+        });
+    </script>
+    <script  type="text/javascript">
+        function b(value){
+                var id_tmp="id_"+value;
+                var name_tmp="name_"+value;
+                var tel_tmp="tel_"+value;
+                var id_txt=document.getElementById(id_tmp).value;
+                var name_txt=document.getElementById(name_tmp).value;
+                var tel_txt=document.getElementById(tel_tmp).value;
+                a(id_txt,name_txt,tel_txt);
+            }
+        function a(id,name,tel) {
+            $.ajaxSetup({
+                contentType: "application/x-www-form-urlencoded;charset=utf-8"
+            });
+            $.ajax({
+                type: 'POST',
+                url: "/edit",
+                data: {
+                    id:id,
+                    name:name,
+                    tel:tel
+                },
+                success: function(data) {alert(data),doRequestUsingPost(); },
+            })
+        }
+
+    </script>
+    <script src="JS/layer-v3.0.3/layer/layer.js"></script>
+    <script>
+        function new_user() {
+            layer.open({
+                title:'新建联系人',
+                type: 2,
+                content: './new_user.html',
+                area:['500px','300px']
+            });
+        }
+    </script>
+        <style  type="text/css">
+    td{
+       min-width: 150px;
+    text-align: center;
+    }
+    iframe.new{
+       padding-left: 15%;
+        min-height: 400px;
+    }
+    </style>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+        <h3 align="center">通讯录查询系统</h3>
+        <div class="row">
+    <div class="form-group">
+          <form   action="#" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label for="id" class="col-sm-2 control-label" >ID:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="id" placeholder="ID" name="id" style="width: 300px">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">姓名:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" placeholder="姓名" name="name" style="width: 300px">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tel" class="col-sm-2 control-label">电话:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="tel" placeholder="电话" name="tel" style="width: 300px">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" onclick="doRequestUsingPost();" class="btn btn-success">查询</button>
+                    <button type="button" onclick="new_user()" class="btn btn-success">新建</button>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+
+       <div id="serverResponse"  class="res">
+       </div>
+        <!--<iframe src="new_user.html" frameborder=0 width="auto" class="new" style="display: none" id="new">-->
+
+        <!--</iframe>-->
+        </div>
+</body>
+</html>
