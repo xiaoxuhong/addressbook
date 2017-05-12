@@ -23,8 +23,7 @@ public class Find_by_name extends DB_connection implements JDBC_Find{
             String tel = rs1.getString("tel");
 
             // 输出数据
-            res.add("<td>" + id+"</td>"+"  <td>" + name+"</td>"+"  <td style:>" + tel+"</td>"+"<td><a href=\"/del?id="+id+"\">删除</a></td>");
-
+            res.add("<td><input id=\"id_"+id+"\"type=\"text\" readonly=\"true\" value=\"" +id+"\"></td>"+"<td><input type=\"text\" id=\"name_"+id+"\" value=\"" + name+"\"></td>"+"<td><input type=\"text\"id=\"tel_"+id+"\" value=\"" +tel+"\"></td>"+"</td>"+"<td><a href=\"javascript:if(confirm('确实要删除该内容吗?'))location='/del?id="+id+"'\">删除</a> <input type=\"button\" name=\""+id+"\" class=\"btn btn-primary btn-sm\" onclick=\"b("+id+")\" value=\"提交修改\"></td>");
         }
         return res;
     }

@@ -13,8 +13,6 @@ public class del_user_java extends DB_connection implements del_user_imp {
         // 执行 SQL 查询
         Statement stmt = conn.createStatement();
         String sql="DELETE FROM stu WHERE id="+id;
-//        PreparedStatement ps1 = conn.prepareStatement(sql);
-//        ps1.executeQuery();
-          stmt.executeUpdate(sql);
+        stmt.executeUpdate(sql);
     }
 }

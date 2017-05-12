@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <title>Title</title>
+    <script type="text/javascript">
+        function f() {
+            alert();
+        }
+    </script>
+    <script  type="text/javascript">
+        $(function (){
+        $(".button").click(function() {
+            var value = $(this).attr("name"); // $(this)表示获取当前被点击元素的name值
+//                alert(value);
+            var tmp="id_"+value;
+           alert(document.getElementById(tmp).value);
+//            var txt=document.getElementById(tmp).value;
+//            a(1,txt,txt);
+        });
+    })
+        function a(id,name,tel) {
+            $.post("/edit",
+                {
+                    id:"1",
+                    name:name,
+                    tel:tel
+                });
+        }
+
+    </script>
+</head>
+<body>
+<input type="button" name="1"  value="提交">
+<input type="button" name="2" class="button" onclick="f()" value="提交">
+<input type="button" name="3" class="button" value="提交">
+<input type="button" name="4" class="button" value="提交">
+<input type="button" name="5" class="button" value="提交">
+<input type="text" value="123456" id="id_1">
+<input type="text" value="新技术都是" id="id_2">
+</body>
+</html>
